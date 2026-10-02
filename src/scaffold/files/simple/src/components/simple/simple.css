@@ -1,0 +1,77 @@
+/* SIMPLE VIEW. The same tokens and faces as Console, with more room: larger type, one primary
+ * action per stage, and details behind disclosures. Content fills its column. */
+.sx { display: block; padding: 0 var(--gutter) 56px; }
+.sx-eyebrow { display: block; font: 600 12px/1.6 var(--mono); letter-spacing: 0.05em; color: var(--ink-faint); text-transform: uppercase; }
+.sx-step { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; color: var(--ink-faint); font: 600 12px/1.7 var(--mono); }
+.sx-note, .sx-terms { margin: 0; padding-top: 16px; font-size: 13.5px; line-height: 1.7; color: var(--ink-dim); }
+
+.sx-hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 6vw; align-items: center; padding: 64px 0 48px; }
+.sx-pitch h1 { margin: 0; padding: 16px 0 20px; font: 600 clamp(34px, 4vw, 54px)/1.1 var(--sans); letter-spacing: -0.03em; }
+.sx-pitch > p { margin: 0; font-size: 18px; line-height: 1.7; color: var(--ink-dim); }
+
+.sx-card { border: 1px solid var(--rule); border-radius: 12px; background: var(--panel); padding: 28px; margin: 0 0 28px; }
+.sx-card h2 { margin: 0; padding-top: 18px; font: 600 26px/1.3 var(--sans); letter-spacing: -0.02em; }
+.sx-card-sub { margin: 0; padding-top: 12px; font-size: 16px; line-height: 1.7; color: var(--ink-dim); }
+.sx-primary { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; margin-top: 20px; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--on-accent); font: 600 16px/1.3 var(--sans); text-decoration: none; cursor: pointer; }
+.sx-primary:hover { filter: brightness(1.06); }
+.sx-primary:disabled { opacity: 0.6; cursor: progress; }
+
+.sx-section { padding: 40px 0 0; border-top: 1px solid var(--rule); }
+.sx-section-intro { padding: 0 0 24px; }
+.sx-section-intro h1, .sx-section-intro h2 { margin: 0; padding-top: 12px; font: 600 clamp(26px, 3vw, 38px)/1.25 var(--sans); letter-spacing: -0.02em; }
+.sx-order .sx-section-intro { padding-top: 48px; }
+
+.sx-result { border: 1px solid var(--rule); border-radius: 12px; padding: 24px 28px; margin-bottom: 28px; }
+.sx-stages { list-style: none; margin: 0; padding: 18px 0 0; display: grid; gap: 4px; }
+.sx-stages li { display: flex; align-items: center; gap: 14px; min-height: 40px; font-size: 17px; color: var(--ink-dim); }
+.sx-stages li[data-state='done'], .sx-stages li[data-state='current'], .sx-stages li[data-state='waiting'] { color: var(--ink); }
+.sx-stages li[data-state='current'], .sx-stages li[data-state='waiting'] { font-weight: 600; }
+.sx-dot, .sx-stage-n { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; flex: none; border-radius: 50%; border: 1.5px solid var(--rule-strong); font: 600 11px/1 var(--mono); color: var(--ink-faint); }
+.sx-stages li[data-state='done'] .sx-dot, .sx-stages li[data-state='done'] .sx-stage-n { background: var(--good); border-color: var(--good); color: var(--ground); }
+.sx-stages li[data-state='current'] .sx-dot, .sx-stages li[data-state='current'] .sx-stage-n,
+.sx-stages li[data-state='waiting'] .sx-dot, .sx-stages li[data-state='waiting'] .sx-stage-n { border-color: var(--accent); color: var(--accent-ink); }
+
+.sx-problems { border: 1px solid var(--accent); border-radius: 12px; padding: 20px 24px; margin-bottom: 28px; background: var(--accent-wash); }
+.sx-problems h2 { margin: 0 0 12px; font-size: 18px; }
+.sx-problems ul { margin: 0; padding-left: 20px; }
+.sx-problems li { margin: 0 0 8px; font-size: 16px; line-height: 1.6; }
+
+.sx-help-list { margin-top: 8px; }
+.sx-disclosure { border-top: 1px solid var(--rule); }
+.sx-disclosure:last-child { border-bottom: 1px solid var(--rule); }
+.sx-disclosure > button { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; min-height: 60px; padding: 18px 0; text-align: left; font: 600 17px/1.5 var(--sans); color: var(--ink); }
+.sx-sign { font: 400 22px/1 var(--mono); color: var(--ink-faint); }
+.sx-disclosure > button:hover .sx-sign { color: var(--accent-ink); }
+.sx-reveal { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 240ms var(--ease), opacity 240ms ease; }
+.sx-reveal[data-open='true'] { grid-template-rows: 1fr; opacity: 1; }
+.sx-reveal > div { min-height: 0; overflow: hidden; }
+.sx-answer { padding: 0 0 22px; font-size: 16px; line-height: 1.75; color: var(--ink-dim); }
+.sx-answer p { margin: 0 0 12px; }
+.sx-dl { margin: 0; }
+.sx-dl > div { display: grid; grid-template-columns: 160px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+.sx-dl dt { color: var(--ink-faint); }
+.sx-dl dd { margin: 0; color: var(--ink); overflow-wrap: anywhere; }
+
+.sx-form { display: grid; gap: 18px; padding-top: 18px; }
+.sx-field { display: grid; gap: 6px; }
+.sx-field label, .sx-group legend, .sx-choice legend { font-size: 15px; font-weight: 600; color: var(--ink); }
+.sx-field input[type='text'], .sx-field input[type='email'], .sx-field textarea { width: 100%; min-height: 48px; padding: 10px 14px; font: 16px/1.5 var(--sans); color: var(--ink); background: var(--ground); border: 1px solid var(--rule-strong); border-radius: 8px; }
+.sx-field input[type='file'] { min-height: 44px; font-size: 15px; }
+.sx-help, .sx-kept { font-size: 14px; line-height: 1.6; color: var(--ink-dim); }
+.sx-group { margin: 0; border: 1px solid var(--rule); border-radius: 10px; padding: 14px 18px 18px; display: grid; gap: 12px; }
+.sx-row { display: grid; gap: 14px; padding: 14px 0; border-bottom: 1px dashed var(--rule); }
+.sx-row-head { display: flex; justify-content: space-between; align-items: center; font: 600 13px/1.6 var(--mono); color: var(--ink-faint); }
+.sx-row-head button, .sx-add { min-height: 44px; font-size: 15px; color: var(--accent-ink); text-decoration: underline; text-underline-offset: 4px; justify-self: start; }
+.sx-check { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; min-height: 44px; }
+.sx-check input { width: 20px; height: 20px; margin-top: 2px; }
+.sx-choice { border: 0; padding: 0; display: grid; gap: 8px; }
+.sx-error { margin: 0; color: var(--bad); font-weight: 600; }
+
+@media (max-width: 900px) {
+  .sx-hero { grid-template-columns: 1fr; padding-top: 40px; }
+  .sx-dl > div { grid-template-columns: 1fr; gap: 2px; }
+  .sx-card { padding: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sx-reveal { transition: none; }
+}

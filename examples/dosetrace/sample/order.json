@@ -1,0 +1,34 @@
+{
+  "_note": "Synthetic buyer answers. Alder Creek Family Pharmacy, its staff and both wholesalers are invented. Kelmore, WA does not exist.",
+  "pharmacy_name": "Alder Creek Family Pharmacy",
+  "dba": "",
+  "address": "310 Larkspur Rd",
+  "city": "Kelmore",
+  "state": "WA",
+  "state_license": "WA-FS-0004471",
+  "owner_name": "J. Marchetti",
+  "owner_title": "Pharmacist-in-Charge",
+  "fte": "9",
+  "locations": "1",
+  "wholesalers": [
+    {
+      "name": "Kelmore Drug Supply, Inc.",
+      "license": "WA-WD-0002218",
+      "data_location": "Supplier portal, Documents, DSCSA",
+      "retention": "6 years",
+      "file": "kelmore-drug-supply-licence.pdf"
+    },
+    {
+      "name": "Torvald Pharmaceutical Distribution LLC",
+      "license": "WA-WD-0007740",
+      "data_location": "",
+      "retention": "",
+      "file": "torvald-pharmaceutical-licence.pdf"
+    }
+  ],
+  "staff": [
+    { "name": "J. Marchetti", "role": "Pharmacist-in-Charge" },
+    { "name": "R. Adeyemi", "role": "Staff pharmacist" },
+    { "name": "T. Bledsoe", "role": "Pharmacy technician" }
+  ]
+}

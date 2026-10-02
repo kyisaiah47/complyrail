@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+.complyrail/
+.env
+.env.local
+*.log
+next-env.d.ts
+.DS_Store

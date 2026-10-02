@@ -1,0 +1,18 @@
+{
+  "_note": "A synthetic Stripe Checkout session for the example. It never reaches Stripe.",
+  "id": "cs_test_dosetrace_sample_order",
+  "object": "checkout.session",
+  "status": "complete",
+  "payment_status": "paid",
+  "mode": "payment",
+  "amount_total": 1900,
+  "currency": "usd",
+  "payment_intent": "pi_test_dosetrace_sample",
+  "metadata": { "product": "dosetrace" },
+  "customer_details": { "email": "owner@aldercreekrx.example", "name": "J. Marchetti" },
+  "custom_fields": [
+    { "key": "pharmacy_name", "text": { "value": "Alder Creek Family Pharmacy" } },
+    { "key": "state_license", "text": { "value": "WA-FS-0004471" } },
+    { "key": "fte_count", "numeric": { "value": "9" } }
+  ]
+}

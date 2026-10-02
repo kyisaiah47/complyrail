@@ -1,0 +1,7 @@
+node_modules/
+examples/dosetrace/out/
+.complyrail/
+*.log
+.DS_Store
+.env
+.env.local

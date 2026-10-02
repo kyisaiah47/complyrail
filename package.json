@@ -1,0 +1,54 @@
+{
+  "name": "complyrail",
+  "version": "0.1.0",
+  "description": "Open-source compliance agent. It reads a buyer's documents, applies a rule set, drafts grounded text and renders a filing pack.",
+  "license": "MIT",
+  "author": "Compound Labs (https://thecompound.tech)",
+  "homepage": "https://complyrail.thecompound.tech",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyisaiah47/complyrail.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kyisaiah47/complyrail/issues"
+  },
+  "keywords": [
+    "compliance",
+    "agent",
+    "grounding",
+    "llm",
+    "gemini",
+    "openai",
+    "anthropic",
+    "pdf",
+    "stripe",
+    "supabase"
+  ],
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "complyrail": "src/cli.js"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "scrub": "node scripts/scrub-gate.mjs",
+    "example": "node examples/dosetrace/run.mjs",
+    "prepublishOnly": "node scripts/scrub-gate.mjs && node --test test/*.test.mjs"
+  }
+}

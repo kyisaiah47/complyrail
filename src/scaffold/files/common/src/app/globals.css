@@ -1,0 +1,63 @@
+/* __APP_NAME__: the tokens both views share. Light by default, dark when the system asks. */
+:root {
+  --ground: #fbfaf7;
+  --panel: #f3f1ec;
+  --ink: #1b1a17;
+  --ink-dim: #4f4c45;
+  --ink-faint: #6e6a62;
+  --rule: #e2ded5;
+  --rule-strong: #c9c4b8;
+  --accent: #1f5f8b;
+  --accent-ink: #1a5279;
+  --accent-wash: #e6eef5;
+  --on-accent: #ffffff;
+  --good: #2e7d4f;
+  --bad: #b3261e;
+  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --gutter: clamp(16px, 4vw, 48px);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #141413;
+    --panel: #1c1c1a;
+    --ink: #f2f0ea;
+    --ink-dim: #c4c0b6;
+    --ink-faint: #9a958a;
+    --rule: #2c2b28;
+    --rule-strong: #45433e;
+    --accent: #6fb1e0;
+    --accent-ink: #8cc2ea;
+    --accent-wash: #16232d;
+    --on-accent: #0b1620;
+    --good: #6cc48f;
+    --bad: #f08a80;
+    color-scheme: dark;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--ground); color: var(--ink); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; min-height: 100dvh; display: flex; flex-direction: column; }
+body > main { flex: 1; }
+a { color: inherit; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.site-head { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 12px var(--gutter); border-bottom: 1px solid var(--rule); }
+.site-head-simple { padding-top: 18px; padding-bottom: 18px; }
+.site-head nav { display: flex; gap: 24px; font-size: 14px; color: var(--ink-dim); }
+.site-head nav a { text-decoration: none; padding: 10px 0; }
+.site-head nav a:hover { color: var(--ink); }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; text-decoration: none; }
+.brand-mark { width: 14px; height: 14px; border-radius: 3px; background: var(--accent); }
+
+.site-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px 28px; padding: 22px var(--gutter); border-top: 1px solid var(--rule); font-size: 13.5px; color: var(--ink-dim); }
+.site-foot p { margin: 0; }
+
+.start-error { margin: 10px 0 0; color: var(--bad); font-weight: 600; font-size: 14px; }
+.not-found { padding: 80px var(--gutter); }
+.not-found h1 { margin: 0 0 12px; font-size: 32px; }
