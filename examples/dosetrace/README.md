@@ -35,4 +35,4 @@ Everything it makes lands in `examples/dosetrace/out/`: the orders, the stored f
 - Each licence must name the wholesaler the buyer typed, show the typed licence number, and be in date.
 - A licence from another state, or a letter that does not state authorized trading partner status, may be kept by the buyer. The trading partner log then prints that row as not yet verified.
 
-This example is documentation, not legal advice.
+This example documents the process and is not legal advice.

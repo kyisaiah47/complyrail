@@ -48,7 +48,7 @@ test('the DoseTrace pack delivers a nine-document binder from a synthetic order'
   const [created] = await e.syncPayments();
   let [o] = await e.tick();
   assert.equal(o.status, 'awaiting_intake');
-  assert.match(outbox.list()[0].subject, /Enter your pharmacy's details/);
+  assert.match(outbox.list()[0].subject, /Enter your pharmacy details/);
   assert.match(outbox.list()[0].text, /421 days from today/);
 
   await e.submitIntake(created.token, form({ typo: true }), files);
@@ -81,7 +81,7 @@ test('the DoseTrace pack delivers a nine-document binder from a synthetic order'
   for (const f of zip) assert.equal(f.bytes.subarray(0, 5).toString(), '%PDF-', f.name);
   if (realPdf) for (const f of zip) assert.ok(f.bytes.length > 20000, `${f.name} holds a printed document`);
   const delivery = outbox.list().at(-1);
-  assert.equal(delivery.subject, 'Your binder for Alder Creek Family Pharmacy is ready');
+  assert.equal(delivery.subject, 'Your Alder Creek Family Pharmacy binder is ready');
   assert.match(delivery.text, /Your determination: \*\*Small dispenser/);
   assert.equal(delivery.attachments.length, 1);
 });

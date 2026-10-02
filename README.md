@@ -11,20 +11,9 @@ npm install complyrail
 
 ## What makes it different
 
-**Every drafted sentence is grounded.**
-The model drafts text only from a closed list of facts that the pack builds for each order.
-The engine then checks the draft.
-Every digit run, every number word, every written date and every capitalised multi-word phrase must appear in the facts or in the pack's vocabulary.
-A number word counts as its value: "Three" needs a 3 in the facts, in digits or in words.
-One ungrounded token rejects the whole draft.
-After three rejected drafts the engine applies the pack's declared fallback: it omits the text, prints the buyer's own words, or asks the buyer for more detail.
-The rule is fixed in the engine, and a pack cannot change it.
+**Every drafted sentence is grounded.** The model drafts text only from a closed list of facts that the pack builds for each order. The engine then checks the draft. Every digit run, every number word, every written date and every capitalised multi-word phrase must appear in the facts or in the pack's vocabulary. A number word counts as its value: "Three" needs a 3 in the facts, in digits or in words. One ungrounded token rejects the whole draft. After three rejected drafts, the engine applies the pack's declared fallback: it omits the text, prints the buyer's own words, or asks the buyer for more detail. The rule is fixed in the engine, and a pack cannot change it.
 
-**Rules decide the outcome, not a model.**
-A pack's `determine()` is a plain function from facts to a result.
-The model has two jobs only.
-It reads each uploaded document into typed fields, and it drafts text from facts.
-Pack code compares every field the model read with what the buyer typed, and a disagreement goes back to the buyer as one sentence.
+**Rules decide the outcome, not a model.** A pack's `determine()` is a plain function from facts to a result. The model has two jobs only. It reads each uploaded document into typed fields, and it drafts text from facts. Pack code compares every field the model read with what the buyer typed. A disagreement goes back to the buyer as one sentence.
 
 **A paid order is never dropped.**
 Every stage returns `done`, `retry(reason)` or `needsInput(sentence)`.
@@ -162,11 +151,7 @@ Your site calls three more methods.
 
 ## The DoseTrace example
 
-`examples/dosetrace` is a complete pack built from DoseTrace, a product that makes a DSCSA readiness binder for one pharmacy.
-The buyer answers a form about the pharmacy and uploads one licence or authorized trading partner letter per wholesaler.
-The model reads each letter.
-Pack code compares the holder name and licence number with the typed answers, applies the 25-employee rule and the sunset date, and fills nine document templates.
-The model drafts one readiness paragraph from a closed fact list, and the binder ships without it after three rejected drafts.
+`examples/dosetrace` is a complete pack built from DoseTrace, a product that makes a DSCSA readiness binder for one pharmacy. The buyer answers a form about the pharmacy and uploads one licence or authorized trading partner letter per wholesaler. The model reads each letter. Pack code compares the holder name and licence number with the typed answers, applies the 25-employee rule and the sunset date, and fills nine document templates. The model drafts one readiness paragraph from a closed fact list. The binder ships without that paragraph after three rejected drafts.
 
 Every name, number and document in the example is synthetic.
 Both licence PDFs in the sample folder are marked on their face as not real.
@@ -223,11 +208,7 @@ anthropic({ apiKey, model });
 openaiCompatible({ baseURL: 'http://localhost:11434/v1', model: 'llama3.1' }); // a local model
 ```
 
-`gemini()` walks a chain of Flash models when one answers 429, 404 or 503.
-A failed call never throws.
-It comes back as `{ ok: false, transient }`, and the engine turns it into a retry.
-`modelIntervalMs` on the engine spaces calls apart for a free tier.
-A document schema's `privacy` setting controls what reaches the model: the whole file, only the text a function returns, or nothing.
+`gemini()` tries a chain of Flash models when one answers 429, 404 or 503. A failed call never throws. The call returns `{ ok: false, transient }`, and the engine turns it into a retry. `modelIntervalMs` on the engine spaces calls apart for a free tier. A document schema's `privacy` setting controls what reaches the model: the whole file, only the text a function returns, or nothing.
 
 ## Scaffold a site
 
@@ -237,11 +218,7 @@ cd my-site && npm install && npm run dev      # the site
 npm run worker                                # the order worker, in a second terminal
 ```
 
-`--app console` gives one dense working view: the stages, the form and the order record side by side.
-`--app simple` gives one roomy view: the outcome, one primary action, and details behind disclosures.
-`--app both` gives both views, a first-visit welcome that explains the product and offers the choice, and footer controls to switch.
-The app is a Next.js tree with checkout, the order page, the form, the order status, the download and a worker script.
-It runs with no accounts in development: the start button opens an order without a payment, and files and email stay in `.complyrail/`.
+`--app console` shows the stages, the form and the order record side by side in one dense view. `--app simple` shows the outcome, one primary action and details behind disclosures in one roomy view. `--app both` shows both views, a first-visit welcome that explains the product and offers the choice, and footer controls to switch. The app is a Next.js tree with checkout, the order page, the form, the order status, the download and a worker script. It runs with no accounts in development: the start button opens an order without a payment, and files and email stay in `.complyrail/`.
 
 ## Command line
 
