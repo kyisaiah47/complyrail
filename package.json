@@ -1,6 +1,6 @@
 {
   "name": "complyrail",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Open-source compliance agent. It reads a buyer's documents, applies a rule set, drafts grounded text and renders a filing pack.",
   "license": "MIT",
   "author": "Compound Labs (https://thecompound.tech)",

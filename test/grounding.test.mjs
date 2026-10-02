@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { checkGrounded, buildHaystack, draftGrounded, stub } from '../src/index.js';
+import { checkGrounded, buildHaystack, draftGrounded, stub, numberWords } from '../src/index.js';
 
 const FACTS = [
   'Pharmacy: Alder Creek Family Pharmacy',
@@ -57,6 +57,37 @@ test('facts may be an object of label to value', () => {
   const hay = buildHaystack({ pharmacy: 'Alder Creek Family Pharmacy', fte: 9 }, []);
   assert.equal(checkGrounded('Alder Creek Family Pharmacy has 9 staff.', hay).ok, true);
   assert.equal(checkGrounded('Alder Creek Family Pharmacy has 10 staff.', hay).ok, false);
+});
+
+test('a number word is rejected when no fact holds its value', () => {
+  const r = checkGrounded('Three of your licensed staff have completed the training attestation.', ['Licensed staff named for the training attestation: 2'], VOCAB);
+  assert.deepEqual(r, { ok: false, kind: 'number', token: 'Three' });
+});
+
+test('a number word passes when a fact holds its value', () => {
+  assert.equal(checkGrounded('Three of your licensed staff have completed the training attestation.', ['Licensed staff named for the training attestation: 3'], VOCAB).ok, true);
+  assert.equal(checkGrounded('Three of your licensed staff signed.', ['three licensed staff are named'], VOCAB).ok, true, 'the same word in the facts grounds it');
+});
+
+test('"one" and "a" are not checked as counts', () => {
+  assert.equal(checkGrounded('Ask one of your locations to keep a copy.', ['Locations owned: 3'], VOCAB).ok, true);
+});
+
+test('compound number words are read as one value', () => {
+  assert.deepEqual(numberWords('twenty-one days, two hundred and fifty orders, a dozen letters, thousands of pages').map((n) => n.value), [21, 250, 12, 1000]);
+  assert.deepEqual(numberWords('two and three').map((n) => n.value), [2, 3]);
+  assert.equal(checkGrounded('You have twenty-one days left.', ['Days left: 21']).ok, true);
+  assert.deepEqual(checkGrounded('You have twenty-two days left.', ['Days left: 21']), { ok: false, kind: 'number', token: 'twenty-two' });
+  assert.deepEqual(checkGrounded('It covers two hundred and fifty orders.', ['Orders: 25']), { ok: false, kind: 'number', token: 'two hundred and fifty' });
+  assert.deepEqual(checkGrounded('Keep a dozen copies.', ['Copies: 2']), { ok: false, kind: 'number', token: 'dozen' });
+});
+
+test('a fact spelled out in words grounds the same count in digits', () => {
+  assert.equal(checkGrounded('You have 3 wholesalers.', ['three wholesalers are on file']).ok, true);
+});
+
+test('ordinals and words that only contain a number are not counts', () => {
+  assert.equal(checkGrounded('The third document is often the one someone asks for.', ['Documents: 9']).ok, true);
 });
 
 test('an empty draft is rejected', () => {

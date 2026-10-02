@@ -103,6 +103,24 @@ test('the grounding check rejects a DoseTrace brief with an invented number', as
   assert.deepEqual([viaModel.ok, viaModel.reason, viaModel.token], [false, 'ungrounded', '14']);
 });
 
+test('a spelled-out count passes only when the facts hold it', async () => {
+  const { e, store } = engine({ pdf: fakePdf });
+  const [created] = await e.syncPayments();
+  await e.tick();
+  await e.submitIntake(created.token, form(), files);
+  const [o] = await e.tick();
+  const row = await store.get(o.id);
+  const facts = briefFacts({ determination: row.determination, intake: row.intake });
+  // A sentence Gemini Flash drafted on this synthetic order on 2026-10-02.
+  const draft = 'Three of your licensed staff have completed the DSCSA training attestation.';
+  assert.equal(facts['Licensed staff named for the training attestation'], 3);
+  assert.equal(checkGrounded(draft, buildHaystack([facts], BRIEF_VOCABULARY)).ok, true, 'the order names three staff');
+  const two = checkGrounded(draft, buildHaystack([{ ...facts, 'Licensed staff named for the training attestation': 2 }], BRIEF_VOCABULARY));
+  assert.deepEqual([two.ok, two.kind, two.token], [false, 'number', 'Three']);
+  const fourteen = checkGrounded('Fourteen delivery drivers work for you.', buildHaystack([facts], BRIEF_VOCABULARY));
+  assert.deepEqual([fourteen.ok, fourteen.token], [false, 'Fourteen']);
+});
+
 test('a model that keeps inventing numbers ships the binder without the brief', async () => {
   const { e, store } = engine({ provider: dosetraceStub({ invent: true }), pdf: fakePdf });
   const [created] = await e.syncPayments();

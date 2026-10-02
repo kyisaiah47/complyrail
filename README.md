@@ -14,7 +14,8 @@ npm install complyrail
 **Every drafted sentence is grounded.**
 The model drafts text only from a closed list of facts that the pack builds for each order.
 The engine then checks the draft.
-Every digit run, every written date and every capitalised multi-word phrase must appear in the facts or in the pack's vocabulary.
+Every digit run, every number word, every written date and every capitalised multi-word phrase must appear in the facts or in the pack's vocabulary.
+A number word counts as its value: "Three" needs a 3 in the facts, in digits or in words.
 One ungrounded token rejects the whole draft.
 After three rejected drafts the engine applies the pack's declared fallback: it omits the text, prints the buyer's own words, or asks the buyer for more detail.
 The rule is fixed in the engine, and a pack cannot change it.
@@ -253,8 +254,10 @@ complyrail worker --config complyrail.config.mjs --every 120
 
 ## Limits
 
-The grounding rule checks digits, written dates and capitalised phrases.
-It does not check numbers written as words, and it does not judge whether a grounded sentence is true.
+The grounding rule checks digit runs, number words from two upward, written dates and capitalised phrases.
+It does not check "one" or "a", because both are more often a pronoun or an article than a count.
+It does not check ordinals such as "third".
+It does not judge whether a grounded sentence is true: "Three of your staff signed" passes when the facts hold 3 staff, whether or not they signed.
 PDFs need a local Chrome or Chromium.
 The engine processes orders one at a time per worker, and a lease stops two workers from running the same order.
 

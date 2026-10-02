@@ -355,6 +355,7 @@ export function refusal(reason: string, options?: { refund?: boolean }): Refusal
 export function checkGrounded(draft: string, facts: unknown, vocabulary?: string[]): { ok: true; text: string } | { ok: false; kind: 'number' | 'date' | 'phrase' | 'empty'; token: string };
 export function buildHaystack(facts: unknown, vocabulary?: string[]): { text: string; numbers: Set<string> };
 export function factLines(facts: unknown): string[];
+export function numberWords(text: string): Array<{ phrase: string; words: string[]; value: number }>;
 export const GROUNDING_INSTRUCTIONS: string;
 
 export function readDocument(options: { provider: Provider; file: InputFile; schema: ReadSchema; privacy?: Privacy; maxBytes?: number }): Promise<ReadResult>;

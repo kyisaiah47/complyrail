@@ -12,7 +12,7 @@
 //   2. a typed licence number that disagrees with the uploaded licence stops the order with one
 //      sentence for the buyer,
 //   3. the corrected form runs through every stage to a delivered binder of nine PDFs,
-//   4. the grounding check rejects a draft that adds a number no fact holds.
+//   4. the grounding check rejects a draft that adds a number no fact holds, in digits or in words.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -143,7 +143,7 @@ async function main() {
   for (const e of zip) console.log(`     ${e.name.padEnd(36)} ${String(e.bytes.length).padStart(7)} bytes  ${e.bytes.subarray(0, 5).toString() === '%PDF-' ? 'PDF' : 'not a PDF'}`);
   console.log(`   ${outbox.list().length} emails in ${path.relative(process.cwd(), path.join(OUT, 'outbox'))}: ${outbox.list().map((m) => `"${m.subject}"`).join(', ')}`);
 
-  console.log('\n4. The grounding check rejects an invented number.');
+  console.log('\n4. The grounding check rejects an invented number, in digits or in words.');
   const ctx = { determination: row.determination, intake: row.intake };
   const facts = briefFacts(ctx);
   const base = row.drafts.readiness_brief.text || 'Alder Creek Family Pharmacy has 9 licensed pharmacists and technicians on record.';
@@ -152,6 +152,15 @@ async function main() {
   console.log(`   checkGrounded on the delivered brief plus "You also employ 14 delivery drivers.": ${direct.ok ? 'accepted' : `rejected, ungrounded ${direct.kind} "${direct.token}"`}`);
   const viaModel = await draftGrounded({ provider: dosetraceStub({ invent: true }), system: pack.narratives[0].system, facts, vocabulary: BRIEF_VOCABULARY });
   console.log(`   draftGrounded with a model that writes 14 for the headcount: ${viaModel.ok ? 'accepted' : `rejected, ungrounded ${viaModel.kind} "${viaModel.token}"`}`);
+  // A sentence a Gemini Flash draft wrote on this order on 2026-10-02. Its count is spelled out.
+  const wordDraft = 'Three of your licensed staff have completed the DSCSA training attestation.';
+  const staffKey = 'Licensed staff named for the training attestation';
+  const asOrdered = checkGrounded(wordDraft, buildHaystack([facts], BRIEF_VOCABULARY));
+  const twoStaff = checkGrounded(wordDraft, buildHaystack([{ ...facts, [staffKey]: 2 }], BRIEF_VOCABULARY));
+  const verdict = (r) => (r.ok ? 'accepted' : `rejected, ungrounded ${r.kind} "${r.token}"`);
+  console.log(`   "${wordDraft}"`);
+  console.log(`     with this order's facts (${staffKey}: ${facts[staffKey]}): ${verdict(asOrdered)}`);
+  console.log(`     with the same facts but 2 staff named: ${verdict(twoStaff)}`);
 
   const report = {
     provider: provider.name,
@@ -162,12 +171,15 @@ async function main() {
     brief: row.drafts.readiness_brief,
     files: zip.map((e) => ({ name: e.name, bytes: e.bytes.length, pdf: e.bytes.subarray(0, 5).toString() === '%PDF-' })),
     emails: outbox.list().map((m) => m.subject),
-    grounding: { tampered_rejected: !direct.ok, token: direct.token, model_invention_rejected: !viaModel.ok, model_token: viaModel.token },
+    grounding: {
+      tampered_rejected: !direct.ok, token: direct.token, model_invention_rejected: !viaModel.ok, model_token: viaModel.token,
+      number_word: { draft: wordDraft, with_order_facts: asOrdered.ok ? 'accepted' : asOrdered.token, with_two_staff: twoStaff.ok ? 'accepted' : twoStaff.token },
+    },
     history: row.history.map((h) => `${h.stage} ${h.result}`),
   };
   fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(report, null, 2));
   console.log(`\nReport: ${path.relative(process.cwd(), path.join(OUT, 'report.json'))}. Binder PDFs: ${path.relative(process.cwd(), binderDir)}`);
-  if (direct.ok || viaModel.ok) throw new Error('the grounding check accepted an invented number');
+  if (direct.ok || viaModel.ok || twoStaff.ok) throw new Error('the grounding check accepted an invented number');
 }
 
 /* Tick until the order waits on the buyer or finishes. A model outage puts it in retrying; the

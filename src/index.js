@@ -5,7 +5,7 @@
 export { createEngine, STAGES, STAGE_LABELS, backoffMinutes, InputError } from './engine.js';
 export { definePack, validateFields } from './pack.js';
 export { done, retry, needsInput, determination, refusal, Retry } from './results.js';
-export { checkGrounded, buildHaystack, factLines, GROUNDING_INSTRUCTIONS } from './grounding.js';
+export { checkGrounded, buildHaystack, factLines, numberWords, GROUNDING_INSTRUCTIONS } from './grounding.js';
 export { readDocument, extractJson, normaliseRead, schemaPrompt } from './services/read-document.js';
 export { draftGrounded, draftPrompt } from './services/draft.js';
 export { fillTemplate, renderMail } from './template.js';
