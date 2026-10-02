@@ -151,6 +151,10 @@ Your site calls three more methods.
 
 ## The DoseTrace example
 
+A video tutorial builds this example from a fresh clone: https://youtu.be/V2vyBwtrmDE
+It runs one order to a delivered binder.
+It then copies the pack and names each part you change to build a different product.
+
 `examples/dosetrace` is a complete pack built from DoseTrace, a product that makes a DSCSA readiness binder for one pharmacy. The buyer answers a form about the pharmacy and uploads one licence or authorized trading partner letter per wholesaler. The model reads each letter. Pack code compares the holder name and licence number with the typed answers, applies the 25-employee rule and the sunset date, and fills nine document templates. The model drafts one readiness paragraph from a closed fact list. The binder ships without that paragraph after three rejected drafts.
 
 Every name, number and document in the example is synthetic.
